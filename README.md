@@ -25,6 +25,8 @@ The channel mediates the communication of two independent processes. In its abse
 3. Run the remaining "mainFile".
 4. All done.
 
+For the connection to work it is necessary that the reader's folder and the writer's folder were in the same folder, due to recording the location of the channel in the relative farmate. This disadvantage can be corrected by recording the channel at the absolute location. However, this was not done to avoid creating "extra" folders.
+
 ## Expected expansion
 
 - [X] Creating a writer in C/C++ language.
