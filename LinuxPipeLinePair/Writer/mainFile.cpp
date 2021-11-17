@@ -8,11 +8,18 @@
 #include <limits.h>
 #include <stdio.h>
 
-#define FIFO_ID "../PipeDir/pipe_line_pair_test_016"
-#define FILE_DATA "data_file.txt"
+const std::string FIFO_DIR = "../DirPipe/";
+const std::string FIFO_ID = "pipe_line_pair_test_016";
+const std::string FIFO_FULL_PATH = FIFO_DIR + FIFO_ID;
+
+std::string FILE_DATA = "data_file.txt";
 #define BUFFER_SIZE 2
 
-int main() {
+int main(int argc, char* argv[]) {
+  // Обработка параметров запуска
+  if(argc > 1) {
+    FILE_DATA = argv[1]; // перезапись пути до файла данных
+  }
   ///
   /// Получение данных
   ///
@@ -45,15 +52,20 @@ int main() {
   ///
   /// Передача данных
   ///
-  mknod(FIFO_ID, S_IFIFO | 0666, 0); // создание канала (если его нет)
+  mkdir(FIFO_DIR.c_str(), 0777); // создание директории (если ее нету)
+  mknod(FIFO_FULL_PATH.c_str(), S_IFIFO | 0777, 0); // создание канала (если его нет)
   printf("Wait for a reader...\n");
-  int file_d = open(FIFO_ID, O_WRONLY); // подключение к каналу со стороны записи
+  int file_d = open(FIFO_FULL_PATH.c_str(), O_WRONLY); // подключение к каналу со стороны записи
+  if (!(file_d > 0)) { 
+    printf("Connect to channel is failed.\n");
+    return -2;
+  }
   printf("A reader connected.\nSending...\n");
   int size;
   int buf[BUFFER_SIZE];
   buf[0] = max;
   buf[1] = min;
-  write(file_d, buf, sizeof(buf));
+  write(file_d, buf, sizeof(int)*BUFFER_SIZE);
   close(file_d);
   printf("Sending completed.\n");
   return 0;
