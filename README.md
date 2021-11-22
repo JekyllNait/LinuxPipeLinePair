@@ -35,4 +35,4 @@ For the connection to work it is necessary that the reader's folder and the writ
 
 - [X] Creating a writer in C/C++ language.
 - [X] Creating a reader in C/C++ language.
-- [ ] Creating a writer in D language.
+- [X] Creating a writer in D language.
